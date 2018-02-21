@@ -13,7 +13,7 @@ def clahe_histo(file_name):
 	img = cv2.imread('{}.jpg'.format(file_name),0) 
 	clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 	cl1 = clahe.apply(img)
-	cv2.imwrite('histo-result-{}.jpg'.format(file_name),cl1)
+	cv2.imwrite('histo-result-{}.png'.format(file_name),cl1)
 
 def haar_cascade(file_name):
 	file_name = file_name.strip('.jpg')
@@ -30,7 +30,7 @@ def haar_cascade(file_name):
 	    eyes = eye_cascade.detectMultiScale(roi_gray)
 	    for (ex,ey,ew,eh) in eyes:
 	        cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
-	cv2.imwrite('haar-cascade-{}.jpg'.format(file_name),img)
+	cv2.imwrite('haar-cascade-{}.png'.format(file_name),img)
 	#cv2.waitKey(0)
 	#cv2.destroyAllWindows()
 
@@ -41,7 +41,7 @@ def canny_edge(file_name):
 	filter = cv2.Canny(img,100,200)
  
 	#cv2.imshow('Original - Canny Edge',img)
-	cv2.imwrite('canny-edge-{}.jpg'.format(file_name),filter)
+	cv2.imwrite('canny-edge-{}.png'.format(file_name),filter)
  
 if __name__=='__main__':
 	files = get_files()
