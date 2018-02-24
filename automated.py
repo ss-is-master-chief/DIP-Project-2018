@@ -14,7 +14,8 @@ def clahe_histo(file_name):
 	clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 	cl1 = clahe.apply(img)
 	cv2.imwrite('histo-result-{}.png'.format(file_name),cl1)
-
+	
+# need to have a automated placeholder module to scout haarcascade files
 def haar_cascade(file_name):
 	file_name = file_name.strip('.jpg')
 	print(file_name)
