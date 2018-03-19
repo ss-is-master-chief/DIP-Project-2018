@@ -24,7 +24,7 @@ if __name__ == '__main__':
 	fr.get_images()
 	for file1 in fr.faces:
 		for file2 in fr.faces:
-			if(fr.recog_image(file1,file2)==True):
+			if(fr.recog_image(file1,file2)==[True]):
 				print("{} and {} are same".format(file1,file2))
 			else:
 				print("{} and {} are different".format(file1,file2))
