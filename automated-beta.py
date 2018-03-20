@@ -2,10 +2,13 @@ import numpy as np
 import cv2
 import glob
 import face_recognition
+import os
 
 class face_recog:
 	
 	faces = []
+	opencv_version = str(cv2.__version__)
+	cascade_classifier_path = os.system('locate opencv-{}/data/haarcascades | head -n 1'.format(opencv_version))
 	
 	def __init__(self):
 		self.get_files()
@@ -27,8 +30,8 @@ class face_recog:
 	def haar_cascade(self,file_name):
 		file_name = file_name.strip('.jpg')
 		print(file_name)
-		face_cascade = cv2.CascadeClassifier('/home/sumitsaha/opencv-3.3.1/data/haarcascades/haarcascade_frontalface_default.xml')
-		eye_cascade = cv2.CascadeClassifier('/home/sumitsaha/opencv-3.3.1/data/haarcascades/haarcascade_eye.xml')
+		face_cascade = cv2.CascadeClassifier('{}/haarcascade_frontalface_default.xml'.format(cascade_classifier_path))
+		eye_cascade = cv2.CascadeClassifier('{}/haarcascade_eye.xml'.format(cascade_classifier_path))
 		img = cv2.imread('{}.jpg'.format(file_name))
 		gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 		faces = face_cascade.detectMultiScale(gray, 1.3, 5)
