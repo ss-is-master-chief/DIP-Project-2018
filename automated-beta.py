@@ -7,6 +7,7 @@ import os
 class face_recog:
 	
 	faces = []
+	dataset = []
 	opencv_version = str(cv2.__version__)
 	cascade_classifier_path = os.system('locate opencv-{}/data/haarcascades | head -n 1'.format(opencv_version))
 	
@@ -68,24 +69,42 @@ class face_recog:
 	def enchance_images(self):
 		for file in self.faces:
 			self.clahe_histo(file)
-		for file in self..faces:
+		for file in self.faces:
 			self.canny_edge(file)
 		for file in self.faces:
 			self.haar_cascade(file) 
 		
 	def compare_faces(self):	
-		for file1 in self.faces:
-			for file2 in self.faces:
-				if(file1!=file2):
-					if(self.recog_image(file1,file2)==[True]):
-						print("{} and {} are same".format(file1,file2))
-					else:
-						print("{} and {} are different".format(file1,file2))
+		for file2 in self.faces:
+			ctr=1
+			flag=False
+			diffctr=0
+			for file1 in self.dataset:
+				if(self.recog_image(file1,file2)==[True]):
+					fname=file1.strip(".jpg")+"_"+str(ctr)					
+					fname=fname[8:]
+					ctr+=1
+					print("{} and {} are same".format(file1,file2))
+					loc=self.faces.index(file2)
+					self.faces.remove(file2)
+					self.faces.insert(loc,fname+".jpg")
+					os.rename(file2,fname+".jpg")
+					flag=True
+					break
+				else:
+					print("{} and {} are different".format(file1,file2))
+					diffctr+=1
+					if diffctr==len(self.dataset):
+						inp=input("\n\n{} is unidentified.\nWho are you?? ".format(file2))
+						print("\n{}.jpg was added to the dataset.".format(inp))
+						os.rename(file2,"dataset/"+inp+".jpg")
+			if(flag):
+				continue
 		
 	 
 if __name__=='__main__':
 	
 	recognition = face_recog()
 	
-	recognition.enchance_images()
+	#recognition.enchance_images()
 	recognition.compare_faces()
